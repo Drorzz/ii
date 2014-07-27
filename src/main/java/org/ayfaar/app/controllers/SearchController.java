@@ -157,7 +157,7 @@ public class SearchController {
                 String quote = matcher.group().replaceAll("(?iu)\\b(" + query + ")\\b", "<strong>$1</strong>");
                 //map.put("quote", quote.trim());
                 //modelMaps.add(map);
-                contentSearchResult.setQoute(quote.trim());
+                contentSearchResult.setQuote(quote.trim());
                 contentSearchResults.add(contentSearchResult);
             }
         }
