@@ -45,5 +45,4 @@ public class SEOViewThymeleafSpringConfiguration {
         templateEngine.setTemplateResolver(templateResolver);
         return templateEngine;
     }
-
 }

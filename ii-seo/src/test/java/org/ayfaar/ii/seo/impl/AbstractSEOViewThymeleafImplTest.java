@@ -1,13 +1,11 @@
 package org.ayfaar.ii.seo.impl;
 
-import lombok.Setter;
 import org.ayfaar.ii.seo.SEOView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.thymeleaf.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,23 +19,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes={SEOViewThymeleafSpringConfiguration.class,SEOViewThymeleafSpringConfigurationForTest.class})
 public class AbstractSEOViewThymeleafImplTest {
     @Autowired
-    @Setter
-    private TemplateEngine templateEngine;
-
-
-    private class SEOViewThymeleafImplMock extends AbstractSEOViewThymeleafImpl{
-
-        public SEOViewThymeleafImplMock(String name,TemplateEngine templateEngine){
-            super(name, templateEngine);
-        }
-
-        @Override
-        protected Map<String, ?> getParameters(Map<String, String> viewParameters) {
-            Map<String, String> parameters = new HashMap<>(viewParameters);
-            parameters.put("param3","value3");
-            return parameters;
-        }
-    }
+    private SEOView view;
 
     @Test
     public void testGetHTML() throws Exception {
@@ -46,7 +28,6 @@ public class AbstractSEOViewThymeleafImplTest {
             put("param2","value2");
         }};
 
-        SEOView view = new SEOViewThymeleafImplMock("testView",templateEngine);
         view.setViewParameters(viewParameters);
         String result = view.getHTML();
 

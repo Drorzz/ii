@@ -1,8 +1,8 @@
 package org.ayfaar.ii.seo.impl;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.ayfaar.ii.seo.SEOView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.*;
 import org.thymeleaf.exceptions.NotInitializedException;
@@ -14,14 +14,14 @@ import java.util.Map;
  * Created by Drorzz on 05.08.2014.
  */
 public abstract class AbstractSEOViewThymeleafImpl implements SEOView {
-    private @Setter TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngine templateEngine;
 
     private @Getter String name;
     private Map<String, String> viewParameters;
 
-    public AbstractSEOViewThymeleafImpl(String name,TemplateEngine templateEngine){
+    public AbstractSEOViewThymeleafImpl(String name){
         this.name = name;
-        this.templateEngine = templateEngine;
     }
 
     @Override
