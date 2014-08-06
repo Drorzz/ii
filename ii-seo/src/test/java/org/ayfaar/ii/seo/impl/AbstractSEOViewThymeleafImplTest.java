@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes={SEOViewThymeleafSpringConfiguration.class,SEOViewThymeleafSpringConfigurationForTest.class})
 public class AbstractSEOViewThymeleafImplTest {
     @Autowired
-    private SEOView view;
+    private SEOView testView;
 
     @Test
     public void testGetHTML() throws Exception {
@@ -28,8 +28,8 @@ public class AbstractSEOViewThymeleafImplTest {
             put("param2","value2");
         }};
 
-        view.setViewParameters(viewParameters);
-        String result = view.getHTML();
+        testView.setViewParameters(viewParameters);
+        String result = testView.getHTML();
 
         assertTrue("Title",result.contains("<title>Test view</title>"));
         assertTrue("Value 1",result.contains("<p>value1</p>"));
