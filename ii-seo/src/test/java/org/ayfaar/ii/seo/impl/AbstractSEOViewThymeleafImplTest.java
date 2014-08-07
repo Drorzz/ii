@@ -23,6 +23,19 @@ import static org.junit.Assert.*;
 @Configuration
 @PropertySource("classpath:seoThymeleafSpring_test.properties")
 public class AbstractSEOViewThymeleafImplTest {
+    private class SEOViewThymeleafImplMock extends AbstractSEOViewThymeleafImpl {
+        public SEOViewThymeleafImplMock(String name){
+            super(name);
+        }
+
+        @Override
+        protected Map<String, ?> getParameters(Map<String, String> viewParameters) {
+            Map<String, String> parameters = new HashMap<>(viewParameters);
+            parameters.put("param3","value3");
+            return parameters;
+        }
+    }
+
     @Bean
     public SEOView testView(){
         return new SEOViewThymeleafImplMock("testView");
