@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={SEOViewThymeleafSpringConfiguration.class,AbstractSEOViewThymeleafImplTest.class})
-@Configuration
+@Configuration// работает это анотации, но IDE ругается на @Autowired, говолит что нето такого бина :(
 @PropertySource("classpath:seoThymeleafSpring_test.properties")
 public class AbstractSEOViewThymeleafImplTest {
     @Bean
