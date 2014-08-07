@@ -23,13 +23,13 @@ import static org.junit.Assert.*;
 @Configuration
 @PropertySource("classpath:seoThymeleafSpring_test.properties")
 public class AbstractSEOViewThymeleafImplTest {
-    @Autowired
-    private SEOView testView;
-
     @Bean
     public SEOView testView(){
         return new SEOViewThymeleafImplMock("testView");
     }
+
+    @Autowired
+    private SEOView testView;
 
     @Test
     public void testGetHTML() throws Exception {
