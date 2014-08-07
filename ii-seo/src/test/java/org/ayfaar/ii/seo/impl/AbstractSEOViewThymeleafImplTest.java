@@ -3,17 +3,21 @@ package org.ayfaar.ii.seo.impl;
 import org.ayfaar.ii.seo.SEOView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Drorzz on 05.08.2014.
@@ -23,22 +27,21 @@ import static org.junit.Assert.*;
 @Configuration
 @PropertySource("classpath:seoThymeleafSpring_test.properties")
 public class AbstractSEOViewThymeleafImplTest {
-    private class SEOViewThymeleafImplMock extends AbstractSEOViewThymeleafImpl {
-        public SEOViewThymeleafImplMock(String name){
-            super(name);
-        }
-
-        @Override
-        protected Map<String, ?> getParameters(Map<String, String> viewParameters) {
-            Map<String, String> parameters = new HashMap<>(viewParameters);
-            parameters.put("param3","value3");
-            return parameters;
-        }
-    }
-
     @Bean
     public SEOView testView(){
-        return new SEOViewThymeleafImplMock("testView");
+        AbstractSEOViewThymeleafImpl view = mock(AbstractSEOViewThymeleafImpl.class);
+        ReflectionTestUtils.setField(view,"name","testView");
+        when(view.getHTML()).thenCallRealMethod();
+        when(view.getParameters(anyMap())).then(new Answer<Map<String, String>>() {
+            @Override
+            public Map<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new HashMap<String,String>(){{
+                    put("param1", "value1");
+                    put("param2", "value2");
+                    put("param3", "value3");
+                }};
+            }});
+        return view;
     }
 
     @Autowired
@@ -46,12 +49,7 @@ public class AbstractSEOViewThymeleafImplTest {
 
     @Test
     public void testGetHTML() throws Exception {
-        Map<String, String> viewParameters = new HashMap<String,String>(){{
-            put("param1","value1");
-            put("param2","value2");
-        }};
-
-        testView.setViewParameters(viewParameters);
+        testView.setViewParameters(anyMap());
         String result = testView.getHTML();
 
         assertTrue("Title",result.contains("<title>Test view</title>"));
