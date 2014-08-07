@@ -19,10 +19,17 @@ import static org.junit.Assert.*;
  * Created by Drorzz on 05.08.2014.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={SEOViewThymeleafSpringConfiguration.class,SEOViewThymeleafSpringConfigurationForTest.class})
+@ContextConfiguration(classes={SEOViewThymeleafSpringConfiguration.class,AbstractSEOViewThymeleafImplTest.class})
+@Configuration
+@PropertySource("classpath:seoThymeleafSpring_test.properties")
 public class AbstractSEOViewThymeleafImplTest {
     @Autowired
     private SEOView testView;
+
+    @Bean
+    public SEOView testView(){
+        return new SEOViewThymeleafImplMock("testView");
+    }
 
     @Test
     public void testGetHTML() throws Exception {
@@ -41,14 +48,5 @@ public class AbstractSEOViewThymeleafImplTest {
         assertFalse("Param 1",result.contains("<p>param1</p>"));
         assertFalse("Param 2",result.contains("<p>param2</p>"));
         assertFalse("Param 3",result.contains("<p>param3</p>"));
-    }
-}
-
-@Configuration
-@PropertySource("classpath:seoThymeleafSpring_test.properties")
-class SEOViewThymeleafSpringConfigurationForTest {
-    @Bean
-    public SEOView testView(){
-        return new SEOViewThymeleafImplMock("testView");
     }
 }
